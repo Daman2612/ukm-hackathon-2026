@@ -198,8 +198,7 @@
       return;
     }
 
-    // ✅ Save once only
-    const saved = saveRegistration(data);
+  
 
     // 🚀 Send Email using YOUR real IDs
     emailjs.send("service_s1bdjmp", "template_cv1g2op", {
@@ -230,5 +229,63 @@
 });
   </script>
 
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  // 🔥 PASTE YOUR OWN CONFIG FROM FIREBASE
+  const firebaseConfig = {
+    apiKey: "AIzaSyDzI52EIIn9JE3ym8xQFztFdXkMoChGJVU",
+    authDomain: "ukm-hackathon-admin.firebaseapp.com",
+    projectId: "ukm-hackathon-admin",
+    storageBucket: "ukm-hackathon-admin.firebasestorage.app",
+    messagingSenderId: "138460236538",
+    appId: "1:138460236538:web:8eadcf600f40ba06381743"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // Wait until page loads
+  document.addEventListener("DOMContentLoaded", () => {
+
+    const form = document.getElementById("regForm");
+
+    form.addEventListener("submit", async (e) => {
+
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        const docRef = await addDoc(collection(db, "registrations"), {
+          name: data.name,
+          matric: data.matric,
+          email: data.email,
+          role: data.role,
+          teamStatus: data.teamStatus,
+          teamCode: data.teamCode || null,
+          createdAt: new Date()
+        });
+
+        console.log("Saved with ID:", docRef.id);
+
+        document.getElementById("regIdDisplay").innerText = docRef.id;
+
+        const modal = document.getElementById("successModal");
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Error saving registration.");
+      }
+
+    });
+
+  });
+
+</script>
 </body>
 </html>
