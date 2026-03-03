@@ -172,5 +172,49 @@
       document.body.removeChild(a);
     });
   </script>
+
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDzI52EIIn9JE3ym8xQFztFdXkMoChGJVU",
+    authDomain: "ukm-hackathon-admin.firebaseapp.com",
+    projectId: "ukm-hackathon-admin",
+    storageBucket: "ukm-hackathon-admin.firebasestorage.app",
+    messagingSenderId: "138460236538",
+    appId: "1:138460236538:web:8eadcf600f40ba06381743"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  async function loadRegistrations() {
+    const querySnapshot = await getDocs(collection(db, "registrations"));
+    const tableBody = document.getElementById("adminTableBody");
+
+    tableBody.innerHTML = "";
+
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+
+      const row = `
+        <tr class="border-b border-gray-700">
+          <td class="p-2">${doc.id}</td>
+          <td class="p-2">${data.name}</td>
+          <td class="p-2">${data.matric}</td>
+          <td class="p-2">${data.email}</td>
+          <td class="p-2">${data.role}</td>
+          <td class="p-2">${data.teamStatus}</td>
+          <td class="p-2">${data.teamCode || "-"}</td>
+        </tr>
+      `;
+
+      tableBody.innerHTML += row;
+    });
+  }
+
+  loadRegistrations();
+</script>
 </body>
 </html>
