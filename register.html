@@ -11,109 +11,59 @@
   <!-- Custom CSS -->
   <link rel="stylesheet" href="styles.css">
 
-  <!-- Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-
-  <!-- GSAP -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-
   <!-- EmailJS -->
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-  
 </head>
 
 <body class="text-white min-h-screen flex flex-col relative bg-[#0a192f]">
-  <div class="gradient-bg"></div>
 
-  <!-- NAVBAR -->
-  <nav class="fixed w-full z-50 glass-panel border-b-0 border-t-0 border-l-0 border-r-0">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-      <a href="index.html" class="font-tech text-xl tracking-wider font-bold text-white flex items-center gap-2">
-        <i data-lucide="hexagon" class="text-[#00f5ff]"></i>
-        UKM<span class="text-[#00f5ff]">HACKATHON</span>
-      </a>
-
-      <a href="index.html" class="text-sm tracking-widest uppercase hover:text-[#00f5ff] flex items-center gap-2">
-        <i data-lucide="arrow-left" class="w-4 h-4"></i> Back
-      </a>
-    </div>
-  </nav>
-
-  <!-- MAIN -->
-  <main class="flex-grow pt-32 pb-20 px-6">
+  <main class="flex-grow pt-20 pb-20 px-6">
     <div class="max-w-3xl mx-auto">
 
-      <h1 class="text-4xl font-tech font-bold mb-2 text-center">
-        SECURE YOUR <span class="text-[#00f5ff]">SPOT</span>
+      <h1 class="text-4xl font-bold mb-8 text-center">
+        REGISTER FOR <span class="text-cyan-400">UKM HACKATHON</span>
       </h1>
 
-      <p class="text-center text-gray-400 mb-10 text-sm tracking-widest uppercase">
-        System Registration Node Active
-      </p>
+      <form id="regForm" class="bg-black/40 p-8 rounded-xl space-y-6">
 
-      <form id="regForm" class="glass-panel p-8 rounded-xl shadow-2xl space-y-6">
+        <input type="text" name="name" required
+          class="w-full p-3 rounded bg-black/50"
+          placeholder="Full Name">
 
-        <!-- PERSONAL -->
-        <div class="space-y-4">
-          <h2 class="text-xl font-tech text-[#00f5ff] border-b border-[#00f5ff]/30 pb-2">
-            Personal Data
-          </h2>
+        <input type="text" name="matric" required
+          class="w-full p-3 rounded bg-black/50"
+          placeholder="Student ID">
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input type="text" name="name" required
-              class="w-full neon-input rounded px-4 py-3"
-              placeholder="Full Name">
+        <input type="email" name="email" required
+          class="w-full p-3 rounded bg-black/50"
+          placeholder="Email Address">
 
-            <input type="text" name="matric" required
-              class="w-full neon-input rounded px-4 py-3"
-              placeholder="Student ID / Matric">
-          </div>
+        <select name="role" required
+          class="w-full p-3 rounded bg-black/50">
+          <option value="" disabled selected>Select Role</option>
+          <option value="Frontend">Frontend</option>
+          <option value="Backend">Backend</option>
+          <option value="Fullstack">Fullstack</option>
+          <option value="Design">Design</option>
+          <option value="AI">AI/ML</option>
+          <option value="Business">Business</option>
+        </select>
 
-          <input type="email" name="email" required
-            class="w-full neon-input rounded px-4 py-3"
-            placeholder="Email Address">
+        <div>
+          <label><input type="radio" name="teamStatus" value="solo" checked> Solo</label>
+          <label class="ml-4"><input type="radio" name="teamStatus" value="join"> Join Team</label>
+          <label class="ml-4"><input type="radio" name="teamStatus" value="create"> Create Team</label>
         </div>
 
-        <!-- ROLE -->
-        <div class="space-y-4 pt-4">
-          <h2 class="text-xl font-tech text-[#00f5ff] border-b border-[#00f5ff]/30 pb-2">
-            Technical Spec
-          </h2>
-
-          <select name="role" required
-            class="w-full neon-input rounded px-4 py-3">
-            <option value="" disabled selected>Select Role...</option>
-            <option value="Frontend">Frontend Dev</option>
-            <option value="Backend">Backend Dev</option>
-            <option value="Fullstack">Fullstack Dev</option>
-            <option value="Design">UI/UX Designer</option>
-            <option value="AI">AI/ML Engineer</option>
-            <option value="Business">Business/Product</option>
-          </select>
-        </div>
-
-        <!-- TEAM -->
-        <div class="space-y-4 pt-4">
-          <h2 class="text-xl font-tech text-[#00f5ff] border-b border-[#00f5ff]/30 pb-2">
-            Team Alignment
-          </h2>
-
-          <div class="flex gap-4 text-sm">
-            <label><input type="radio" name="teamStatus" value="solo" checked> Solo</label>
-            <label><input type="radio" name="teamStatus" value="join"> Join Team</label>
-            <label><input type="radio" name="teamStatus" value="create"> Create Team</label>
-          </div>
-
-          <div id="teamCodeBlock" class="hidden">
-            <input type="text" name="teamCode"
-              class="w-full neon-input rounded px-4 py-3 uppercase"
-              placeholder="TEAM-XXXXX">
-          </div>
+        <div id="teamCodeBlock" class="hidden">
+          <input type="text" name="teamCode"
+            class="w-full p-3 rounded bg-black/50 uppercase"
+            placeholder="TEAM-XXXXX">
         </div>
 
         <button type="submit"
-          class="w-full neon-btn py-4 rounded font-bold text-lg">
-          REGISTER NOW
+          class="w-full bg-cyan-500 py-3 rounded font-bold text-black">
+          REGISTER
         </button>
 
       </form>
@@ -124,141 +74,83 @@
   <div id="successModal"
     class="fixed inset-0 bg-black/80 hidden items-center justify-center">
 
-    <div class="glass-panel p-8 rounded-xl max-w-md w-full text-center">
-
-      <h2 class="text-3xl font-tech font-bold mb-4">
-        ACCESS GRANTED
+    <div class="bg-black p-8 rounded-xl text-center max-w-md w-full">
+      <h2 class="text-2xl font-bold mb-4 text-cyan-400">
+        REGISTRATION SUCCESS
       </h2>
 
-      <p class="text-gray-400 mb-4">
-        Registration successful.
-      </p>
+      <p class="mb-4">Your Registration ID:</p>
 
       <div id="regIdDisplay"
-        class="bg-black/50 p-4 rounded mb-4 font-mono text-xl text-[#00f5ff]">
+        class="bg-black/50 p-4 rounded mb-4 font-mono text-xl text-cyan-400">
       </div>
 
       <button onclick="window.location.href='index.html'"
-        class="neon-btn px-6 py-2 rounded w-full">
+        class="bg-cyan-500 px-6 py-2 rounded text-black font-bold">
         RETURN
       </button>
     </div>
   </div>
 
-  <!-- IMPORTANT: LOAD app.js FIRST -->
-  <script src="app.js"></script>
+  <!-- FIREBASE + EMAIL SCRIPT -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-  <script>
-  document.addEventListener("DOMContentLoaded", () => {
+    const firebaseConfig = {
+      apiKey: "AIzaSyDzI52EIIn9JE3ym8xQFztFdXkMoChGJVU",
+      authDomain: "ukm-hackathon-admin.firebaseapp.com",
+      projectId: "ukm-hackathon-admin",
+      storageBucket: "ukm-hackathon-admin.firebasestorage.app",
+      messagingSenderId: "138460236538",
+      appId: "1:138460236538:web:8eadcf600f40ba06381743"
+    };
 
-  // 🔐 Initialize EmailJS
-  emailjs.init("NNbbXEmOQgO-ru2uS");
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-  const teamRadios = document.querySelectorAll('input[name="teamStatus"]');
-  const teamCodeBlock = document.getElementById("teamCodeBlock");
-  const teamCodeInput = document.querySelector('input[name="teamCode"]');
+    emailjs.init("NNbbXEmOQgO-ru2uS");
 
-  teamRadios.forEach(radio => {
-    radio.addEventListener("change", (e) => {
+    const teamRadios = document.querySelectorAll('input[name="teamStatus"]');
+    const teamCodeBlock = document.getElementById("teamCodeBlock");
+    const teamCodeInput = document.querySelector('input[name="teamCode"]');
 
-      if (e.target.value === "join") {
-        teamCodeBlock.classList.remove("hidden");
-        teamCodeInput.readOnly = false;
-        teamCodeInput.value = "";
-      }
-
-      else if (e.target.value === "create") {
-        teamCodeBlock.classList.remove("hidden");
-        teamCodeInput.readOnly = true;
-        teamCodeInput.value = generateTeamCode();
-      }
-
-      else {
-        teamCodeBlock.classList.add("hidden");
-        teamCodeInput.value = "";
-      }
-
-    });
-  });
-
-  document.getElementById("regForm").addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData.entries());
-
-    if (data.teamStatus === "join" && !data.teamCode) {
-      alert("Please enter a team code.");
-      return;
+    function generateTeamCode() {
+      return "TEAM-" + Math.random().toString(36).substring(2, 7).toUpperCase();
     }
 
-    const existing = getRegistrations();
-    if (existing.find(r => r.email === data.email)) {
-      alert("Email already registered.");
-      return;
-    }
-
-  
-
-    // 🚀 Send Email using YOUR real IDs
-    emailjs.send("service_s1bdjmp", "template_cv1g2op", {
-      name: data.name,
-      id: saved.id,
-      role: data.role,
-      teamCode: data.teamCode || "SOLO",
-      email: data.email
-    })
-    .then(() => {
-
-      document.getElementById("regIdDisplay").innerText = saved.id;
-
-      const modal = document.getElementById("successModal");
-      modal.classList.remove("hidden");
-      modal.classList.add("flex");
-
-      console.log("Email sent successfully ✅");
-
-    })
-    .catch((error) => {
-      console.error("Email failed ❌", error);
-      alert("Registration saved, but email failed.");
+    teamRadios.forEach(radio => {
+      radio.addEventListener("change", (e) => {
+        if (e.target.value === "join") {
+          teamCodeBlock.classList.remove("hidden");
+          teamCodeInput.readOnly = false;
+          teamCodeInput.value = "";
+        }
+        else if (e.target.value === "create") {
+          teamCodeBlock.classList.remove("hidden");
+          teamCodeInput.readOnly = true;
+          teamCodeInput.value = generateTeamCode();
+        }
+        else {
+          teamCodeBlock.classList.add("hidden");
+          teamCodeInput.value = "";
+        }
+      });
     });
 
-  });
-
-});
-  </script>
-
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-  // 🔥 PASTE YOUR OWN CONFIG FROM FIREBASE
-  const firebaseConfig = {
-    apiKey: "AIzaSyDzI52EIIn9JE3ym8xQFztFdXkMoChGJVU",
-    authDomain: "ukm-hackathon-admin.firebaseapp.com",
-    projectId: "ukm-hackathon-admin",
-    storageBucket: "ukm-hackathon-admin.firebasestorage.app",
-    messagingSenderId: "138460236538",
-    appId: "1:138460236538:web:8eadcf600f40ba06381743"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  // Wait until page loads
-  document.addEventListener("DOMContentLoaded", () => {
-
-    const form = document.getElementById("regForm");
-
-    form.addEventListener("submit", async (e) => {
-
+    document.getElementById("regForm").addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const formData = new FormData(form);
+      const formData = new FormData(e.target);
       const data = Object.fromEntries(formData.entries());
 
+      if (data.teamStatus === "join" && !data.teamCode) {
+        alert("Please enter a team code.");
+        return;
+      }
+
       try {
+        // SAVE TO FIREBASE
         const docRef = await addDoc(collection(db, "registrations"), {
           name: data.name,
           matric: data.matric,
@@ -269,23 +161,31 @@
           createdAt: new Date()
         });
 
-        console.log("Saved with ID:", docRef.id);
+        // SEND EMAIL
+        await emailjs.send(
+          "service_s1bdjmp",
+          "template_cv1g2op",
+          {
+            name: data.name,
+            id: docRef.id,
+            role: data.role,
+            teamCode: data.teamCode || "SOLO",
+            email: data.email
+          }
+        );
 
+        // SHOW SUCCESS
         document.getElementById("regIdDisplay").innerText = docRef.id;
-
-        const modal = document.getElementById("successModal");
-        modal.classList.remove("hidden");
-        modal.classList.add("flex");
+        document.getElementById("successModal").classList.remove("hidden");
+        document.getElementById("successModal").classList.add("flex");
 
       } catch (error) {
         console.error("Error:", error);
-        alert("Error saving registration.");
+        alert("Something went wrong. Check console.");
       }
-
     });
 
-  });
+  </script>
 
-</script>
 </body>
 </html>
