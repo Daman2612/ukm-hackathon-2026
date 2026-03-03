@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ | UKM Hackathon 2026</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="text-white min-h-screen flex flex-col relative bg-[#0a192f]">
+  <div class="gradient-bg"></div>
+
+
+  <nav class="fixed w-full z-50 glass-panel border-b-0 border-t-0 border-l-0 border-r-0">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="index.html" class="font-tech text-2xl tracking-wider font-bold text-white flex items-center gap-2">
+        <i data-lucide="hexagon" class="text-[#00f5ff]"></i> UKM<span class="text-[#00f5ff]">HACKATHON</span>
+      </a>
+      <div class="hidden md:flex gap-8 items-center text-sm tracking-widest uppercase">
+        <a href="index.html" class="hover:text-[#00f5ff] transition-colors">Home</a>
+        <a href="register.html" class="hover:text-[#00f5ff] transition-colors">Register</a>
+        <a href="faq.html" class="text-[#00f5ff] border-b border-[#00f5ff]">FAQ</a>
+        <a href="admin.html" class="hover:text-[#00f5ff] transition-colors">Admin</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <main class="flex-grow pt-32 pb-20 px-6 max-w-4xl mx-auto w-full">
+    <h1 class="text-4xl font-tech font-bold mb-10 text-center text-outline">KNOWLEDGE BASE</h1>
+
+
+    <div class="space-y-4">
+      <div class="glass-panel rounded-lg overflow-hidden">
+        <button class="w-full px-6 py-4 text-left font-bold font-tech flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
+          Who can participate?
+          <i data-lucide="chevron-down" class="w-5 h-5 transition-transform duration-300"></i>
+        </button>
+        <div class="accordion-content px-6 bg-black/20">
+          <p class="py-4 text-gray-400 text-sm">Any active university student can participate. While we are hosted at UKM, we welcome builders from all institutions.</p>
+        </div>
+      </div>
+
+
+      <div class="glass-panel rounded-lg overflow-hidden">
+        <button class="w-full px-6 py-4 text-left font-bold font-tech flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
+          How large can teams be?
+          <i data-lucide="chevron-down" class="w-5 h-5 transition-transform duration-300"></i>
+        </button>
+        <div class="accordion-content px-6 bg-black/20">
+          <p class="py-4 text-gray-400 text-sm">Teams must consist of 2 to 4 members. You can register solo and we will match you with a team prior to the event.</p>
+        </div>
+      </div>
+
+
+      <div class="glass-panel rounded-lg overflow-hidden">
+        <button class="w-full px-6 py-4 text-left font-bold font-tech flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
+          Do I need to know how to code?
+          <i data-lucide="chevron-down" class="w-5 h-5 transition-transform duration-300"></i>
+        </button>
+        <div class="accordion-content px-6 bg-black/20">
+          <p class="py-4 text-gray-400 text-sm">Not necessarily! Hackathons need designers, product managers, and visionaries. As long as you contribute to building the prototype, you are welcome.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+
+  <script src="app.js"></script>
+  <script>
+    function toggleAccordion(btn) {
+      const content = btn.nextElementSibling;
+      const icon = btn.querySelector('i');
+      
+      if (content.style.maxHeight) {
+        content.style.maxHeight = null;
+        icon.style.transform = 'rotate(0deg)';
+      } else {
+        document.querySelectorAll('.accordion-content').forEach(el => el.style.maxHeight = null);
+        document.querySelectorAll('.accordion-content').forEach(el => {
+            let prevIcon = el.previousElementSibling.querySelector('i');
+            if(prevIcon) prevIcon.style.transform = 'rotate(0deg)';
+        });
+        
+        content.style.maxHeight = content.scrollHeight + "px";
+        icon.style.transform = 'rotate(180deg)';
+      }
+    }
+  </script>
+</body>
+</html>
+```<fbd4a_OUTPUT_COMPLETED>

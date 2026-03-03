@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | UKM Hackathon</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="text-white min-h-screen flex flex-col bg-[#0a192f]">
+  
+  <div id="loginOverlay" class="fixed inset-0 bg-[#0a192f] z-[100] flex items-center justify-center p-6">
+    <div class="glass-panel p-8 rounded-xl max-w-sm w-full">
+      <h2 class="text-2xl font-tech font-bold mb-6 text-center">SYSTEM OVERRIDE</h2>
+      <input type="password" id="adminPwd" class="w-full neon-input rounded px-4 py-3 mb-4 text-center font-mono tracking-widest" placeholder="PASSWORD">
+      <button id="loginBtn" class="w-full neon-btn py-3 rounded font-bold">AUTHENTICATE</button>
+      <p class="text-xs text-center text-gray-500 mt-4">Hint: type "Daman"</p>
+    </div>
+  </div>
+
+
+  <div class="flex h-screen overflow-hidden">
+    <aside class="w-64 glass-panel border-y-0 border-l-0 border-r border-[#00f5ff]/20 hidden md:flex flex-col">
+      <div class="p-6">
+        <a href="index.html" class="font-tech text-xl font-bold flex items-center gap-2">
+          <i data-lucide="hexagon" class="text-[#00f5ff]"></i> OVERSEER
+        </a>
+      </div>
+      <nav class="flex-grow px-4 space-y-2 mt-8">
+        <a href="#" class="flex items-center gap-3 px-4 py-3 rounded bg-[#00f5ff]/10 text-[#00f5ff] border border-[#00f5ff]/30">
+          <i data-lucide="database" class="w-5 h-5"></i> Registrations
+        </a>
+        <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded hover:bg-white/5 text-gray-400 transition-colors">
+          <i data-lucide="log-out" class="w-5 h-5"></i> Exit System
+        </a>
+      </nav>
+    </aside>
+
+
+    <main class="flex-grow p-8 overflow-y-auto relative">
+      <div class="gradient-bg"></div>
+      
+      <div class="flex justify-between items-center mb-8">
+        <div>
+          <h1 class="text-3xl font-tech font-bold text-white">DATABANKS</h1>
+          <p class="text-gray-400 text-sm">Real-time telemetry and candidate tracking</p>
+        </div>
+        <button id="exportBtn" class="neon-btn px-4 py-2 rounded text-sm flex items-center gap-2 font-bold">
+          <i data-lucide="download" class="w-4 h-4"></i> EXPORT CSV
+        </button>
+      </div>
+
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="glass-panel p-6 rounded-xl border-l-4 border-l-[#00f5ff]">
+          <h3 class="text-gray-400 text-sm uppercase tracking-wider mb-2">Total Candidates</h3>
+          <p class="text-4xl font-tech font-bold" id="statTotal">0</p>
+        </div>
+        <div class="glass-panel p-6 rounded-xl border-l-4 border-l-purple-500">
+          <h3 class="text-gray-400 text-sm uppercase tracking-wider mb-2">Formed Teams</h3>
+          <p class="text-4xl font-tech font-bold" id="statTeams">0</p>
+        </div>
+        <div class="glass-panel p-6 rounded-xl border-l-4 border-l-green-500">
+          <h3 class="text-gray-400 text-sm uppercase tracking-wider mb-2">System Status</h3>
+          <p class="text-2xl font-tech font-bold text-green-500 mt-2">NOMINAL</p>
+        </div>
+      </div>
+
+
+      <div class="glass-panel rounded-xl overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm whitespace-nowrap">
+            <thead class="bg-black/40 border-b border-[#00f5ff]/20">
+              <tr>
+                <th class="px-6 py-4 font-tech tracking-wider text-[#00f5ff]">ID</th>
+                <th class="px-6 py-4 font-tech tracking-wider text-[#00f5ff]">Name</th>
+                <th class="px-6 py-4 font-tech tracking-wider text-[#00f5ff]">Role</th>
+                <th class="px-6 py-4 font-tech tracking-wider text-[#00f5ff]">Team Code</th>
+                <th class="px-6 py-4 font-tech tracking-wider text-[#00f5ff]">Action</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody" class="divide-y divide-white/10">
+              <!-- JS Injected -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+
+  <script src="app.js"></script>
+  <script>
+    document.getElementById('loginBtn').addEventListener('click', () => {
+      if(document.getElementById('adminPwd').value === 'Daman'){
+        document.getElementById('loginOverlay').style.display = 'none';
+        loadData();
+      } else {
+        alert('Access Denied');
+      }
+    });
+
+
+    function loadData() {
+      const data = getRegistrations();
+      const tbody = document.getElementById('tableBody');
+      tbody.innerHTML = '';
+
+
+      document.getElementById('statTotal').innerText = data.length;
+      const teams = new Set(data.filter(d => d.teamCode).map(d => d.teamCode));
+      document.getElementById('statTeams').innerText = teams.size;
+
+
+      if(data.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-8 text-center text-gray-500">No signals detected in databanks.</td></tr>`;
+        return;
+      }
+
+
+      data.forEach(reg => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-white/5 transition-colors group';
+        tr.innerHTML = `
+          <td class="px-6 py-4 font-mono text-xs">${reg.id}</td>
+          <td class="px-6 py-4">
+            <div class="font-bold text-white">${reg.name}</div>
+            <div class="text-xs text-gray-500">${reg.email}</div>
+          </td>
+          <td class="px-6 py-4"><span class="px-2 py-1 bg-[#00f5ff]/10 text-[#00f5ff] rounded text-xs">${reg.role || 'N/A'}</span></td>
+          <td class="px-6 py-4 font-mono text-xs text-gray-400">${reg.teamCode || 'SOLO'}</td>
+          <td class="px-6 py-4">
+            <button class="text-xs text-red-400 hover:text-red-300 border border-red-500/30 px-3 py-1 rounded" onclick="deleteReg('${reg.id}')">Purge</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+
+    window.deleteReg = function(id) {
+      if(confirm('Purge entity from databanks?')) {
+        let data = getRegistrations();
+        data = data.filter(d => d.id !== id);
+        localStorage.setItem('ukm_hackathon_registrations', JSON.stringify(data));
+        loadData();
+      }
+    };
+
+
+    document.getElementById('exportBtn').addEventListener('click', () => {
+      const data = getRegistrations();
+      if(!data.length) return alert('No data to export');
+      
+      const headers =['id', 'name', 'matric', 'email', 'role', 'teamStatus', 'teamCode', 'date'];
+      const csv =[
+        headers.join(','),
+        ...data.map(row => headers.map(h => `"${row[h] || ''}"`).join(','))
+      ].join('\n');
+
+
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.setAttribute('hidden', '');
+      a.setAttribute('href', url);
+      a.setAttribute('download', 'hackathon_databanks.csv');
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    });
+  </script>
+</body>
+</html>
